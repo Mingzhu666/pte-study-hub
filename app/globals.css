@@ -1789,3 +1789,89 @@ body {
 }
 .mission-detail-link:hover { text-decoration: underline; }
 .mission-empty { font-size: 13px; color: #A1A1A6; }
+
+/* Summit Climb — Onboarding */
+.summit-onboarding {
+  min-height: 70vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 36px;
+  padding: 60px 40px;
+}
+.summit-onboarding-head {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  text-align: center;
+}
+.summit-onboarding-head h1 {
+  font-size: 28px;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  color: #1D1D1F;
+}
+.summit-onboarding-head p {
+  font-size: 15px;
+  color: #6E6E73;
+}
+.summit-onboarding-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 16px;
+  width: 100%;
+  max-width: 720px;
+}
+.summit-target-card {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 24px;
+  border-radius: 18px;
+  background: #fff;
+  border: 1px solid rgba(0,0,0,0.06);
+  text-align: left;
+  cursor: pointer;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+.summit-target-card:hover {
+  border-color: rgba(0,113,227,0.5);
+  box-shadow: 0 6px 24px rgba(0,0,0,0.06);
+}
+.summit-target-label {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: #A1A1A6;
+}
+.summit-target-title {
+  font-size: 19px;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  color: #1D1D1F;
+}
+.summit-target-subtitle {
+  font-size: 13px;
+  line-height: 1.5;
+  color: #6E6E73;
+}
+.summit-target-scores {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-top: 6px;
+}
+.summit-target-score {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 4px 9px;
+  background: rgba(0,0,0,0.04);
+  border-radius: 999px;
+  font-size: 11px;
+  color: #1D1D1F;
+}
+.summit-target-score strong { font-weight: 600; }
