@@ -40,10 +40,17 @@ export function loadState(): SummitMasteryState {
     if (!raw) return createInitialState();
     const parsed = JSON.parse(raw) as Partial<SummitMasteryState>;
     if (parsed.target !== 'seven' && parsed.target !== 'eight') return createInitialState();
-    return {
-      target: parsed.target,
-      mastery: parsed.mastery ?? {},
-    };
+
+    const mastery: Record<string, MasteryEntry> = {};
+    if (parsed.mastery && typeof parsed.mastery === 'object' && !Array.isArray(parsed.mastery)) {
+      for (const [moduleId, entry] of Object.entries(parsed.mastery)) {
+        const checkedRaw = (entry as MasteryEntry | undefined)?.checked;
+        if (Array.isArray(checkedRaw)) {
+          mastery[moduleId] = { checked: checkedRaw.filter((id): id is string => typeof id === 'string') };
+        }
+      }
+    }
+    return { target: parsed.target, mastery };
   } catch {
     return createInitialState();
   }
@@ -88,10 +95,11 @@ export function getModuleCompletion(
   moduleId: string,
   total: number,
 ): ModuleCompletion {
-  const checked = state.mastery[moduleId]?.checked.length ?? 0;
+  const rawChecked = state.mastery[moduleId]?.checked.length ?? 0;
   const safeTotal = Math.max(total, 0);
-  const percent = safeTotal === 0 ? 0 : Math.round((checked / safeTotal) * 100);
-  return { checked, total: safeTotal, percent };
+  const safeChecked = Math.min(Math.max(rawChecked, 0), safeTotal);
+  const percent = safeTotal === 0 ? 0 : Math.round((safeChecked / safeTotal) * 100);
+  return { checked: safeChecked, total: safeTotal, percent };
 }
 
 export function getNextFocus(

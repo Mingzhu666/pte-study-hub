@@ -6,6 +6,9 @@ import {
   getModuleCompletion,
   getNextFocus,
   getTotalMastery,
+  setTarget,
+  loadState,
+  saveState,
   STORAGE_KEY,
   type SummitMasteryState,
 } from './summitMastery.ts';
@@ -46,7 +49,7 @@ test('getModuleCompletion returns checked / total / percent', () => {
   };
   assert.deepEqual(getModuleCompletion(state, 'rs', 4), { checked: 2, total: 4, percent: 50 });
   assert.deepEqual(getModuleCompletion(state, 'wfd', 4), { checked: 0, total: 4, percent: 0 });
-  assert.deepEqual(getModuleCompletion(state, 'rs', 0), { checked: 2, total: 0, percent: 0 });
+  assert.deepEqual(getModuleCompletion(state, 'rs', 0), { checked: 0, total: 0, percent: 0 });
 });
 
 test('getNextFocus returns the first module in priority order whose completion < 100%', () => {
@@ -99,6 +102,65 @@ test('getTotalMastery counts only modules in the climb id list', () => {
     pointsChecked: 3,
     pointsTotal: 4,
   });
+});
+
+test('setTarget returns the same reference when target is unchanged', () => {
+  const state = createInitialState();
+  const next = setTarget(state, state.target);
+  assert.equal(next, state);
+});
+
+test('setTarget returns a new state object when target changes', () => {
+  const state = createInitialState();
+  const next = setTarget(state, 'seven');
+  assert.notEqual(next, state);
+  assert.equal(next.target, 'seven');
+  assert.equal(state.target, 'eight');
+});
+
+test('getModuleCompletion clamps over-checked counts against the total', () => {
+  const state: SummitMasteryState = {
+    target: 'eight',
+    mastery: { rs: { checked: ['a', 'b', 'c', 'd', 'e'] } },
+  };
+  assert.deepEqual(getModuleCompletion(state, 'rs', 3), { checked: 3, total: 3, percent: 100 });
+});
+
+test('loadState round-trips through saveState and survives a corrupt mastery field', () => {
+  const fakeStore = new Map<string, string>();
+  const originalWindow = (globalThis as unknown as { window?: unknown }).window;
+  (globalThis as unknown as { window: unknown }).window = {
+    localStorage: {
+      getItem: (key: string) => fakeStore.get(key) ?? null,
+      setItem: (key: string, value: string) => { fakeStore.set(key, value); },
+      removeItem: (key: string) => { fakeStore.delete(key); },
+    },
+  };
+
+  try {
+    const start: SummitMasteryState = {
+      target: 'seven',
+      mastery: { rs: { checked: ['a', 'b'] } },
+    };
+    saveState(start);
+    const loaded = loadState();
+    assert.deepEqual(loaded, start);
+
+    fakeStore.set(STORAGE_KEY, JSON.stringify({ target: 'eight', mastery: 'corrupt' }));
+    assert.deepEqual(loadState(), { target: 'eight', mastery: {} });
+
+    fakeStore.set(STORAGE_KEY, JSON.stringify({
+      target: 'eight',
+      mastery: { rs: { checked: 'not-an-array' }, wfd: { checked: ['ok', 7, true] } },
+    }));
+    assert.deepEqual(loadState(), { target: 'eight', mastery: { wfd: { checked: ['ok'] } } });
+  } finally {
+    if (originalWindow === undefined) {
+      delete (globalThis as unknown as { window?: unknown }).window;
+    } else {
+      (globalThis as unknown as { window: unknown }).window = originalWindow;
+    }
+  }
 });
 
 test('STORAGE_KEY is the versioned summit key, not the legacy command-map key', () => {
