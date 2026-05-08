@@ -103,6 +103,7 @@ export default function SummitClimb({ modules, onOpenModule }: Props) {
     if (typeof window === 'undefined') return;
     const stored = window.localStorage.getItem('pte-summit-mastery-v1');
     if (stored) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       setState(loadState());
       setPhase('climbing');
     } else {
@@ -122,8 +123,8 @@ export default function SummitClimb({ modules, onOpenModule }: Props) {
   const totals = useMemo(() => {
     const map = new Map<string, number>();
     for (const node of commandNodes) {
-      const module = moduleMap.get(node.id);
-      const items = module ? buildStrategyList(module, language) : [];
+      const pteModule = moduleMap.get(node.id);
+      const items = pteModule ? buildStrategyList(pteModule, language) : [];
       map.set(node.id, items.length);
     }
     return map;
@@ -140,6 +141,7 @@ export default function SummitClimb({ modules, onOpenModule }: Props) {
   // Default selected node: nextFocus on first climb render, sticky thereafter.
   useEffect(() => {
     if (phase === 'climbing' && !selectedId) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       setSelectedId(nextFocus.moduleId ?? layout.main[0]?.node.id ?? null);
     }
   }, [phase, selectedId, nextFocus.moduleId, layout.main]);
@@ -229,8 +231,8 @@ export default function SummitClimb({ modules, onOpenModule }: Props) {
             const completion = getModuleCompletion(state, node.id, totals.get(node.id) ?? 0);
             const isSelected = selectedId === node.id;
             const isNext = nextFocus.moduleId === node.id;
-            const module = moduleMap.get(node.id);
-            const accent = module ? categoryColors[module.category] : '#0071E3';
+            const pteModule = moduleMap.get(node.id);
+            const accent = pteModule ? categoryColors[pteModule.category] : '#0071E3';
             return (
               <button
                 key={node.id}
