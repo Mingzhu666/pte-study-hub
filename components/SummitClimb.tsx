@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useMemo, useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { MotionConfig, motion, AnimatePresence } from 'framer-motion';
 import * as Icons from 'lucide-react';
 import { commandNodes, targetProfiles, type CommandNode, type CommandTarget } from '@/data/commandMap';
 import { useLanguage } from '@/context/LanguageContext';
@@ -15,6 +15,7 @@ import {
   getModuleCompletion,
   getNextFocus,
   getTotalMastery,
+  STORAGE_KEY,
   type SummitMasteryState,
 } from '@/lib/summitMastery';
 import type { PTEModule } from '@/types/pte';
@@ -101,7 +102,7 @@ export default function SummitClimb({ modules, onOpenModule }: Props) {
   // Hydrate from localStorage after mount.
   useEffect(() => {
     if (typeof window === 'undefined') return;
-    const stored = window.localStorage.getItem('pte-summit-mastery-v1');
+    const stored = window.localStorage.getItem(STORAGE_KEY);
     if (stored) {
       // eslint-disable-next-line react-hooks/set-state-in-effect
       setState(loadState());
@@ -132,7 +133,10 @@ export default function SummitClimb({ modules, onOpenModule }: Props) {
 
   const climbModuleIds = useMemo(() => commandNodes.map((n) => n.id), []);
   const priorityOrder = useMemo(() => {
-    return [...commandNodes].sort((a, b) => priorityRank(a, target) - priorityRank(b, target)).map((n) => n.id);
+    return [...commandNodes]
+      .filter((n) => n.priority[target] !== 'low')
+      .sort((a, b) => priorityRank(a, target) - priorityRank(b, target))
+      .map((n) => n.id);
   }, [target]);
 
   const nextFocus = useMemo(() => getNextFocus(state, priorityOrder, totals), [state, priorityOrder, totals]);
@@ -153,14 +157,16 @@ export default function SummitClimb({ modules, onOpenModule }: Props) {
 
   if (phase === 'onboarding') {
     return (
-      <SummitOnboarding
-        onPick={(targetChoice) => {
-          const next = { ...state, target: targetChoice };
-          setState(next);
-          saveState(next);
-          setPhase('climbing');
-        }}
-      />
+      <MotionConfig reducedMotion="user">
+        <SummitOnboarding
+          onPick={(targetChoice) => {
+            const next = { ...state, target: targetChoice };
+            setState(next);
+            saveState(next);
+            setPhase('climbing');
+          }}
+        />
+      </MotionConfig>
     );
   }
 
@@ -172,7 +178,8 @@ export default function SummitClimb({ modules, onOpenModule }: Props) {
   const pathD = buildPathD(allPoints);
 
   return (
-    <div className="summit-climb">
+    <MotionConfig reducedMotion="user">
+      <div className="summit-climb">
       <section className="summit-canvas-wrap">
         <header className="summit-banner">
           <div className="summit-target-row">
@@ -310,6 +317,7 @@ export default function SummitClimb({ modules, onOpenModule }: Props) {
           />
         </motion.div>
       </AnimatePresence>
-    </div>
+      </div>
+    </MotionConfig>
   );
 }
