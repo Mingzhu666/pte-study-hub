@@ -31,6 +31,7 @@ test('fnv1a32 produces stable 8-char hex hashes', () => {
   assert.equal(fnv1a32('hello'), fnv1a32('hello'));
   assert.notEqual(fnv1a32('hello'), fnv1a32('world'));
   assert.match(fnv1a32('anything'), /^[0-9a-f]{8}$/);
+  assert.equal(fnv1a32('hello'), '4f9f2cab');
 });
 
 test('buildStrategyList combines strategy + tips and dedupes by trimmed lowercase text', () => {
@@ -48,6 +49,7 @@ test('buildStrategyList returns stable ids derived from English text only', () =
   const zh = buildStrategyList(baseModule, 'zh');
   assert.deepEqual(en.map((i) => i.id), zh.map((i) => i.id));
   assert.ok(en[0].id.startsWith('demo:'));
+  assert.equal(en[0].id, 'demo:2e2c75d6');
 });
 
 test('buildStrategyList swaps display text to zh when language is zh', () => {
