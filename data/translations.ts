@@ -38,6 +38,29 @@ export const translations = {
 
     // Quick Stats
     marks: 'marks',
+
+    // Summit Climb
+    summitTitle: 'Your Climb',
+    pickTargetTitle: 'Pick your target',
+    pickTargetSubtitle: "We'll plot the route for you.",
+    target7Title: '7炸 · Stable Passing',
+    target7Subtitle: 'Protect the big modules; reduce low-level loss.',
+    target8Title: '8炸 · Superior Pressure',
+    target8Subtitle: 'Speaking 88 and Writing 85 are the bottlenecks.',
+    nextFocus: 'Next focus',
+    strategiesRemaining: 'strategies remaining',
+    routeMastered: 'Route mastered. Maintain or revisit any module.',
+    mastered: 'Mastered',
+    focusTier: 'Focus',
+    activeTier: 'Active',
+    supportTier: 'Support',
+    lowYieldTier: 'Low Yield · Skip-friendly',
+    strategyChecklist: 'Strategy Checklist',
+    failurePoints: 'Failure points',
+    openFullStrategy: 'Open full strategy',
+    baseCampMastered: 'mastered',
+    baseCampPoints: 'strategy points',
+    dailyVolume: 'Daily volume',
   },
   zh: {
     // Navigation
@@ -78,6 +101,29 @@ export const translations = {
 
     // Quick Stats
     marks: '分',
+
+    // Summit Climb
+    summitTitle: '你的登顶图',
+    pickTargetTitle: '选择目标',
+    pickTargetSubtitle: '我们帮你规划路线。',
+    target7Title: '7炸 · 稳健通过',
+    target7Subtitle: '抓住高价值题型,减少低级失分。',
+    target8Title: '8炸 · 高压冲刺',
+    target8Subtitle: '口语 88、写作 85 是真正的瓶颈。',
+    nextFocus: '下一重点',
+    strategiesRemaining: '条策略待完成',
+    routeMastered: '全部攻略完成。继续保持或回顾任意模块。',
+    mastered: '已掌握',
+    focusTier: '核心',
+    activeTier: '主练',
+    supportTier: '辅助',
+    lowYieldTier: '低产 · 可略过',
+    strategyChecklist: '攻略清单',
+    failurePoints: '失分陷阱',
+    openFullStrategy: '打开完整攻略',
+    baseCampMastered: '已掌握',
+    baseCampPoints: '条攻略已勾选',
+    dailyVolume: '每日量',
   },
 } as const;
 
