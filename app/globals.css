@@ -1875,3 +1875,259 @@ body {
   color: #1D1D1F;
 }
 .summit-target-score strong { font-weight: 600; }
+
+/* Summit Climb — Layout */
+.summit-climb {
+  display: grid;
+  grid-template-columns: minmax(0, 3fr) minmax(0, 2fr);
+  gap: 28px;
+  padding: 28px 32px 40px;
+  align-items: start;
+  min-height: calc(100vh - 0px);
+}
+.summit-loading { min-height: 70vh; }
+
+/* Left column */
+.summit-canvas-wrap {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  background: #fff;
+  border-radius: 22px;
+  border: 1px solid rgba(0,0,0,0.06);
+  padding: 22px 22px 18px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.03);
+  min-height: 720px;
+}
+.summit-banner { display: flex; flex-direction: column; gap: 10px; }
+.summit-target-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+}
+.summit-eyebrow {
+  font-size: 10.5px;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: #A1A1A6;
+}
+.summit-switch {
+  display: inline-flex;
+  background: rgba(0,0,0,0.05);
+  border-radius: 999px;
+  padding: 3px;
+  gap: 2px;
+}
+.summit-switch button {
+  font-size: 12px;
+  padding: 5px 12px;
+  border: none;
+  background: transparent;
+  border-radius: 999px;
+  color: #6E6E73;
+  font-weight: 600;
+  cursor: pointer;
+}
+.summit-switch button.on {
+  background: #1D1D1F;
+  color: #fff;
+}
+.summit-scores {
+  display: flex;
+  gap: 6px;
+}
+.summit-scores span {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  background: rgba(0,0,0,0.04);
+  border-radius: 999px;
+  padding: 4px 10px;
+  font-size: 11px;
+  color: #1D1D1F;
+}
+.summit-scores strong { font-weight: 600; }
+.summit-coach {
+  font-size: 13px;
+  color: #6E6E73;
+}
+
+/* Canvas */
+.summit-canvas {
+  position: relative;
+  flex: 1;
+  min-height: 540px;
+  border-radius: 18px;
+  background: linear-gradient(180deg, rgba(0,113,227,0.04) 0%, rgba(0,0,0,0) 60%);
+  overflow: hidden;
+}
+.summit-svg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+.summit-path { stroke: rgba(29,29,31,0.45); }
+.summit-peak {
+  position: absolute;
+  left: 50%;
+  transform: translate(-50%, 0);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+}
+.summit-peak-pin {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: #1D1D1F;
+  box-shadow: 0 0 0 4px rgba(29,29,31,0.08);
+}
+.summit-peak-label {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: #1D1D1F;
+}
+
+/* Checkpoint */
+.summit-checkpoint {
+  position: absolute;
+  transform: translate(-50%, -50%);
+  background: #fff;
+  border: 1px solid rgba(0,0,0,0.06);
+  border-radius: 999px;
+  padding: 6px 12px 6px 8px;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 11.5px;
+  font-weight: 600;
+  color: #1D1D1F;
+  cursor: pointer;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.05);
+  transition:
+    left 0.5s cubic-bezier(0.4, 0, 0.2, 1),
+    top 0.5s cubic-bezier(0.4, 0, 0.2, 1),
+    transform 0.18s ease,
+    box-shadow 0.18s ease,
+    opacity 0.2s ease;
+}
+@media (prefers-reduced-motion: reduce) {
+  .summit-checkpoint { transition: none; }
+}
+.summit-checkpoint:hover { transform: translate(-50%, calc(-50% - 2px)); }
+.summit-checkpoint.selected { box-shadow: 0 0 0 3px rgba(0,113,227,0.18), 0 1px 4px rgba(0,0,0,0.05); }
+.summit-checkpoint.next::before {
+  content: '';
+  position: absolute;
+  inset: -6px;
+  border-radius: 999px;
+  border: 2px solid color-mix(in srgb, var(--accent) 50%, transparent);
+  animation: summit-pulse 1.6s ease-out infinite;
+}
+@keyframes summit-pulse {
+  0% { transform: scale(0.92); opacity: 1; }
+  100% { transform: scale(1.4); opacity: 0; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .summit-checkpoint.next::before {
+    animation: none;
+    opacity: 0.6;
+  }
+}
+.checkpoint-ring {
+  position: relative;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background:
+    conic-gradient(var(--accent) var(--ring), rgba(0,0,0,0.08) var(--ring) 100%);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+.checkpoint-ring::after {
+  content: '';
+  position: absolute;
+  inset: 2px;
+  border-radius: 50%;
+  background: #fff;
+}
+.checkpoint-dot {
+  position: relative;
+  z-index: 1;
+  width: 8px;
+  height: 8px;
+  margin-left: -12px;
+  border-radius: 50%;
+  background: var(--accent);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+}
+.summit-checkpoint.mastered .checkpoint-dot {
+  width: 16px;
+  height: 16px;
+  margin-left: -16px;
+}
+.summit-checkpoint.mastered .checkpoint-ring { display: none; }
+
+/* Side trail */
+.summit-side-node {
+  position: absolute;
+  transform: translate(-50%, -50%);
+  background: transparent;
+  border: 1px dashed rgba(0,0,0,0.18);
+  border-radius: 999px;
+  padding: 3px 9px;
+  font-size: 10.5px;
+  color: #A1A1A6;
+  cursor: pointer;
+  letter-spacing: 0.04em;
+  transition:
+    left 0.5s cubic-bezier(0.4, 0, 0.2, 1),
+    top 0.5s cubic-bezier(0.4, 0, 0.2, 1),
+    color 0.15s ease,
+    border-color 0.15s ease;
+}
+@media (prefers-reduced-motion: reduce) {
+  .summit-side-node { transition: none; }
+}
+.summit-side-node:hover { color: #6E6E73; border-color: rgba(0,0,0,0.3); }
+.summit-side-node.selected { background: rgba(0,113,227,0.06); border-color: rgba(0,113,227,0.4); color: #0071E3; }
+.summit-side-node.mastered { color: #6E6E73; border-style: solid; }
+
+/* Base camp */
+.summit-base-camp {
+  display: flex;
+  justify-content: space-between;
+  font-size: 11.5px;
+  color: #A1A1A6;
+  letter-spacing: 0.02em;
+  padding: 4px 6px;
+}
+.summit-base-side {
+  font-style: italic;
+  font-size: 10.5px;
+}
+
+/* Right column */
+.summit-mission-wrap { position: sticky; top: 28px; }
+
+/* Mobile */
+@media (max-width: 900px) {
+  .summit-climb {
+    grid-template-columns: 1fr;
+    padding: 16px;
+    gap: 16px;
+  }
+  .summit-canvas-wrap { min-height: 560px; }
+  .summit-canvas { min-height: 440px; }
+  .summit-mission-wrap { position: static; }
+}
