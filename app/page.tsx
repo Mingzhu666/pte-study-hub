@@ -7,7 +7,7 @@ import { categories } from '@/data/pteModules';
 import { useLanguage } from '@/context/LanguageContext';
 import type { TranslationKey } from '@/data/translations';
 import * as Icons from 'lucide-react';
-import CommandMap from '@/components/CommandMap';
+import SummitClimb from '@/components/SummitClimb';
 
 type ViewState =
   | { type: 'empty' }
@@ -248,7 +248,7 @@ export default function Home() {
               transition={smooth}
               className="command-map-view"
             >
-              <CommandMap modules={allModules} onOpenModule={handleModuleClick} />
+              <SummitClimb modules={allModules} onOpenModule={handleModuleClick} />
             </motion.div>
           )}
 
