@@ -17,20 +17,11 @@ export interface TargetProfile {
 export interface CommandNode {
   id: string;
   label: string;
-  x: number;
-  y: number;
-  roadmapWidth?: 'sm' | 'md' | 'lg';
   skills: PTEModule['category'][];
   priority: Record<CommandTarget, CommandPriority>;
   dailyVolume: Record<CommandTarget, string>;
   rationale: Record<CommandTarget, string>;
   failurePoints: string[];
-}
-
-export interface CommandEdge {
-  from: string;
-  to: string;
-  targets: CommandTarget[];
 }
 
 export const targetProfiles: Record<CommandTarget, TargetProfile> = {
@@ -68,9 +59,6 @@ export const commandNodes: CommandNode[] = [
   {
     id: 'rs',
     label: 'RS',
-    x: 50,
-    y: 8,
-    roadmapWidth: 'md',
     skills: ['speaking', 'listening'],
     priority: { seven: 'focus', eight: 'focus' },
     dailyVolume: { seven: '50-100 sentences', eight: '80-120 sentences with noise pressure' },
@@ -83,9 +71,6 @@ export const commandNodes: CommandNode[] = [
   {
     id: 'wfd',
     label: 'WFD',
-    x: 50,
-    y: 20,
-    roadmapWidth: 'md',
     skills: ['listening', 'writing'],
     priority: { seven: 'focus', eight: 'focus' },
     dailyVolume: { seven: '40-70 sentences', eight: '60-100 sentences plus mistake replay' },
@@ -98,9 +83,6 @@ export const commandNodes: CommandNode[] = [
   {
     id: 'essay',
     label: 'WE',
-    x: 50,
-    y: 32,
-    roadmapWidth: 'md',
     skills: ['writing'],
     priority: { seven: 'focus', eight: 'focus' },
     dailyVolume: { seven: '1 outline or essay', eight: '1 essay with error pass' },
@@ -113,9 +95,6 @@ export const commandNodes: CommandNode[] = [
   {
     id: 'swt',
     label: 'SWT',
-    x: 30,
-    y: 45,
-    roadmapWidth: 'md',
     skills: ['writing', 'reading'],
     priority: { seven: 'active', eight: 'focus' },
     dailyVolume: { seven: '1 summary', eight: '2 summaries, one-sentence check' },
@@ -128,9 +107,6 @@ export const commandNodes: CommandNode[] = [
   {
     id: 'sst',
     label: 'SST',
-    x: 70,
-    y: 45,
-    roadmapWidth: 'md',
     skills: ['listening', 'writing'],
     priority: { seven: 'focus', eight: 'focus' },
     dailyVolume: { seven: '1-2 summaries', eight: '2 summaries plus keyword spelling' },
@@ -143,9 +119,6 @@ export const commandNodes: CommandNode[] = [
   {
     id: 'rw-fib',
     label: 'FIB-RW',
-    x: 36,
-    y: 59,
-    roadmapWidth: 'md',
     skills: ['reading', 'writing'],
     priority: { seven: 'focus', eight: 'focus' },
     dailyVolume: { seven: '30-45 minutes', eight: '45-60 minutes with collocation log' },
@@ -158,9 +131,6 @@ export const commandNodes: CommandNode[] = [
   {
     id: 'r-fib',
     label: 'FIB-R',
-    x: 64,
-    y: 59,
-    roadmapWidth: 'md',
     skills: ['reading'],
     priority: { seven: 'active', eight: 'focus' },
     dailyVolume: { seven: '2-3 passages', eight: '4-6 passages plus error tags' },
@@ -173,9 +143,6 @@ export const commandNodes: CommandNode[] = [
   {
     id: 'ra',
     label: 'RA',
-    x: 18,
-    y: 73,
-    roadmapWidth: 'md',
     skills: ['speaking', 'reading'],
     priority: { seven: 'focus', eight: 'support' },
     dailyVolume: { seven: '10-20 passages', eight: '8-12 passages for warm-up' },
@@ -188,9 +155,6 @@ export const commandNodes: CommandNode[] = [
   {
     id: 'di',
     label: 'DI',
-    x: 42,
-    y: 73,
-    roadmapWidth: 'md',
     skills: ['speaking'],
     priority: { seven: 'focus', eight: 'focus' },
     dailyVolume: { seven: '5 images', eight: '6-8 images with varied phrasing' },
@@ -203,9 +167,6 @@ export const commandNodes: CommandNode[] = [
   {
     id: 'rl',
     label: 'RL',
-    x: 58,
-    y: 73,
-    roadmapWidth: 'md',
     skills: ['speaking', 'listening'],
     priority: { seven: 'focus', eight: 'focus' },
     dailyVolume: { seven: '2-3 lectures', eight: '3-5 lectures with phrase notes' },
@@ -218,9 +179,6 @@ export const commandNodes: CommandNode[] = [
   {
     id: 'sgd',
     label: 'SGD',
-    x: 82,
-    y: 73,
-    roadmapWidth: 'md',
     skills: ['speaking', 'listening'],
     priority: { seven: 'support', eight: 'focus' },
     dailyVolume: { seven: '1 response', eight: '2-3 responses with natural connectors' },
@@ -233,9 +191,6 @@ export const commandNodes: CommandNode[] = [
   {
     id: 'hiw',
     label: 'HIW',
-    x: 30,
-    y: 88,
-    roadmapWidth: 'md',
     skills: ['listening', 'reading'],
     priority: { seven: 'support', eight: 'support' },
     dailyVolume: { seven: '5-8 items', eight: '8-10 items for focus control' },
@@ -248,9 +203,6 @@ export const commandNodes: CommandNode[] = [
   {
     id: 'lfb',
     label: 'FIB-L',
-    x: 50,
-    y: 88,
-    roadmapWidth: 'md',
     skills: ['listening', 'writing'],
     priority: { seven: 'support', eight: 'support' },
     dailyVolume: { seven: '10 blanks', eight: '15 blanks with s/ed review' },
@@ -263,9 +215,6 @@ export const commandNodes: CommandNode[] = [
   {
     id: 'rp',
     label: 'RO Logic',
-    x: 70,
-    y: 88,
-    roadmapWidth: 'md',
     skills: ['reading'],
     priority: { seven: 'support', eight: 'support' },
     dailyVolume: { seven: '2-3 sets', eight: '3 sets, strict timing' },
@@ -278,9 +227,6 @@ export const commandNodes: CommandNode[] = [
   {
     id: 'asq',
     label: 'ASQ',
-    x: 12,
-    y: 91,
-    roadmapWidth: 'sm',
     skills: ['speaking', 'listening'],
     priority: { seven: 'low', eight: 'low' },
     dailyVolume: { seven: 'Quick review only', eight: 'Quick review only' },
@@ -293,9 +239,6 @@ export const commandNodes: CommandNode[] = [
   {
     id: 'mcm',
     label: 'MCM',
-    x: 88,
-    y: 32,
-    roadmapWidth: 'sm',
     skills: ['reading'],
     priority: { seven: 'low', eight: 'low' },
     dailyVolume: { seven: 'Light touch', eight: 'Light touch' },
@@ -308,9 +251,6 @@ export const commandNodes: CommandNode[] = [
   {
     id: 'smw',
     label: 'SMW',
-    x: 88,
-    y: 91,
-    roadmapWidth: 'sm',
     skills: ['listening'],
     priority: { seven: 'low', eight: 'low' },
     dailyVolume: { seven: 'Light touch', eight: 'Light touch' },
@@ -320,23 +260,4 @@ export const commandNodes: CommandNode[] = [
     },
     failurePoints: ['Overthinking options', 'Missing the main idea', 'Letting one question drain time'],
   },
-];
-
-export const commandEdges: CommandEdge[] = [
-  { from: 'rs', to: 'wfd', targets: ['seven', 'eight'] },
-  { from: 'wfd', to: 'essay', targets: ['seven', 'eight'] },
-  { from: 'essay', to: 'swt', targets: ['seven', 'eight'] },
-  { from: 'essay', to: 'sst', targets: ['seven', 'eight'] },
-  { from: 'swt', to: 'sst', targets: ['eight'] },
-  { from: 'swt', to: 'rw-fib', targets: ['seven', 'eight'] },
-  { from: 'sst', to: 'r-fib', targets: ['seven', 'eight'] },
-  { from: 'rw-fib', to: 'ra', targets: ['seven'] },
-  { from: 'rw-fib', to: 'di', targets: ['seven', 'eight'] },
-  { from: 'r-fib', to: 'rl', targets: ['seven', 'eight'] },
-  { from: 'r-fib', to: 'sgd', targets: ['eight'] },
-  { from: 'ra', to: 'hiw', targets: ['seven'] },
-  { from: 'di', to: 'rl', targets: ['seven', 'eight'] },
-  { from: 'rl', to: 'sgd', targets: ['eight'] },
-  { from: 'di', to: 'lfb', targets: ['seven', 'eight'] },
-  { from: 'rl', to: 'rp', targets: ['seven', 'eight'] },
 ];
