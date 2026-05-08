@@ -1,5 +1,6 @@
-import type { CommandTarget } from '@/lib/commandMapLogic';
 import type { PTEModule } from '@/types/pte';
+
+export type CommandTarget = 'seven' | 'eight';
 
 export type CommandPriority = 'focus' | 'active' | 'support' | 'low';
 

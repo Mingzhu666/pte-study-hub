@@ -1,4 +1,4 @@
-import type { CommandTarget } from '@/lib/commandMapLogic';
+import type { CommandTarget } from '@/data/commandMap';
 
 export const STORAGE_KEY = 'pte-summit-mastery-v1';
 
