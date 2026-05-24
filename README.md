@@ -40,7 +40,7 @@
 <!-- ABOUT THE PROJECT -->
 ## About The Project
 
-[![PTE Study Hub Screenshot][product-screenshot]](docs/screenshots/skill-field.png)
+https://github.com/user-attachments/assets/05146808-5d65-47dd-a820-a444865f599b
 
 Most PTE prep tools treat every task type equally. **PTE Study Hub** scores each of the 20 official task types by band-score impact, surfaces a target-aware **Skill Field** map (PTE 65 vs. 79), and grades the two most opaque modules — **Read Aloud** and **Write Essay** — with an LLM-backed scorer. Full bilingual content (English / Simplified Chinese).
 

@@ -41,3 +41,6 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 .superpowers/
+
+# large media (host on GitHub user-attachments instead)
+docs/screenshots/*.mp4
