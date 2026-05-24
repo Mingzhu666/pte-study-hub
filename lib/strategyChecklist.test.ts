@@ -8,19 +8,18 @@ const baseModule: PTEModule = {
   name: 'Demo',
   fullName: 'Demo Module',
   category: 'speaking',
-  priority: 'high',
   icon: 'Volume2',
   color: '#000',
   content: {
     overview: 'o',
-    scoring: { marks: '1', weight: 'high' },
+    scoring: { marks: '1' },
     questionCount: '1',
     strategy: ['Keep rhythm steady', 'Do not stop on errors'],
     tips: ['Keep rhythm steady', 'Read in chunks'],
   },
   contentZh: {
     overview: 'o',
-    scoring: { marks: '1', weight: 'high' },
+    scoring: { marks: '1' },
     questionCount: '1',
     strategy: ['保持节奏稳定', '错了别停'],
     tips: ['保持节奏稳定', '按意群读'],
@@ -78,4 +77,34 @@ test('buildStrategyList caps the list at 8 items', () => {
   const list = buildStrategyList(many, 'en');
   assert.equal(list.length, 8);
   assert.deepEqual(list.slice(0, 3).map((i) => i.text), ['S0', 'S1', 'S2']);
+});
+
+test('buildStrategyList can use target-specific checklist text and ids', () => {
+  const seven = buildStrategyList(baseModule, 'zh', {
+    target: 'seven',
+    checklist: { en: ['Band 7 specific'], zh: ['7炸专属要求'] },
+  });
+  const eight = buildStrategyList(baseModule, 'zh', {
+    target: 'eight',
+    checklist: { en: ['Band 8 specific'], zh: ['8炸专属要求'] },
+  });
+
+  assert.deepEqual(seven.map((i) => i.text), ['7炸专属要求']);
+  assert.deepEqual(eight.map((i) => i.text), ['8炸专属要求']);
+  assert.ok(seven[0].id.startsWith('seven:demo:'));
+  assert.ok(eight[0].id.startsWith('eight:demo:'));
+  assert.notEqual(seven[0].id, eight[0].id);
+});
+
+test('buildStrategyList swaps target checklist text by language', () => {
+  const en = buildStrategyList(baseModule, 'en', {
+    target: 'seven',
+    checklist: { en: ['Drill spelling.'], zh: ['练拼写。'] },
+  });
+  const zh = buildStrategyList(baseModule, 'zh', {
+    target: 'seven',
+    checklist: { en: ['Drill spelling.'], zh: ['练拼写。'] },
+  });
+  assert.equal(en[0].text, 'Drill spelling.');
+  assert.equal(zh[0].text, '练拼写。');
 });

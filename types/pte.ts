@@ -1,7 +1,6 @@
 export interface ScoringInfo {
   marks: string;
   components?: string;
-  weight: 'high' | 'medium' | 'low';
 }
 
 export interface ModuleContent {
@@ -31,7 +30,6 @@ export interface PTEModule {
   name: string;
   fullName: string;
   category: 'speaking' | 'writing' | 'reading' | 'listening';
-  priority: 'high' | 'medium' | 'low';
   icon: string;
   color: string;
   content: ModuleContent;

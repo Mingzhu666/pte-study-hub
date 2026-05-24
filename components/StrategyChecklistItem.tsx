@@ -1,7 +1,7 @@
 'use client';
 
 import { motion } from 'framer-motion';
-import * as Icons from 'lucide-react';
+import { Check } from 'lucide-react';
 
 interface Props {
   id: string;
@@ -20,7 +20,7 @@ export default function StrategyChecklistItem({ id, text, checked, onToggle }: P
       aria-pressed={checked}
     >
       <span className="strategy-box" aria-hidden="true">
-        {checked && <Icons.Check size={12} strokeWidth={2.4} />}
+        {checked && <Check size={12} strokeWidth={2.4} />}
       </span>
       <span className="strategy-text">{text}</span>
     </motion.button>

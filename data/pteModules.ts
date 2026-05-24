@@ -6,7 +6,6 @@ export const speakingModules: PTEModule[] = [
     name: 'Read Aloud',
     fullName: 'Read Aloud',
     category: 'speaking',
-    priority: 'low',
     icon: 'Volume2',
     color: '#3B82F6',
     content: {
@@ -14,7 +13,6 @@ export const speakingModules: PTEModule[] = [
       scoring: {
         marks: '5-6 marks',
         components: 'Fluency (5) + Content (5) + Pronunciation (5)',
-        weight: 'low',
       },
       timeLimit: '35s prep + 25-40s speak',
       questionCount: '5-6 questions',
@@ -46,7 +44,6 @@ export const speakingModules: PTEModule[] = [
       scoring: {
         marks: '5-6分',
         components: '流利度(5) + 内容(5) + 发音(5)',
-        weight: 'low',
       },
       timeLimit: '35秒准备 + 25-40秒朗读',
       questionCount: '5-6题',
@@ -79,7 +76,6 @@ export const speakingModules: PTEModule[] = [
     name: 'Repeat Sentence',
     fullName: 'Repeat Sentence',
     category: 'speaking',
-    priority: 'high',
     icon: 'Repeat',
     color: '#8B5CF6',
     content: {
@@ -87,7 +83,6 @@ export const speakingModules: PTEModule[] = [
       scoring: {
         marks: '30 to Listening, 14-15 to Speaking',
         components: 'Fluency (5) + Content (3) + Pronunciation (5)',
-        weight: 'high',
       },
       timeLimit: 'Audio plays, then start immediately',
       questionCount: '10 questions',
@@ -118,7 +113,6 @@ export const speakingModules: PTEModule[] = [
       scoring: {
         marks: '30分到听力，14-15分到口语',
         components: '流利度(5) + 内容(3) + 发音(5)',
-        weight: 'high',
       },
       timeLimit: '音频播放后立即开始',
       questionCount: '10题',
@@ -150,7 +144,6 @@ export const speakingModules: PTEModule[] = [
     name: 'Describe Image',
     fullName: 'Describe Image',
     category: 'speaking',
-    priority: 'high',
     icon: 'Image',
     color: '#EC4899',
     content: {
@@ -158,7 +151,6 @@ export const speakingModules: PTEModule[] = [
       scoring: {
         marks: '25-30 marks',
         components: 'Fluency (5) + Content (6) + Pronunciation (5)',
-        weight: 'high',
       },
       timeLimit: '25s prep + 40s speak',
       questionCount: '5-7 questions',
@@ -204,7 +196,6 @@ export const speakingModules: PTEModule[] = [
       scoring: {
         marks: '25-30分',
         components: '流利度(5) + 内容(6) + 发音(5)',
-        weight: 'high',
       },
       timeLimit: '25秒准备 + 40秒说话',
       questionCount: '5-7题',
@@ -251,7 +242,6 @@ export const speakingModules: PTEModule[] = [
     name: 'Re-tell Lecture',
     fullName: 'Re-tell Lecture',
     category: 'speaking',
-    priority: 'medium',
     icon: 'Mic',
     color: '#10B981',
     content: {
@@ -259,7 +249,6 @@ export const speakingModules: PTEModule[] = [
       scoring: {
         marks: '10-12 marks',
         components: 'Fluency (5) + Content (6) + Pronunciation (5)',
-        weight: 'medium',
       },
       timeLimit: '10s prep + 40s speak',
       questionCount: '2-3 questions',
@@ -298,7 +287,6 @@ export const speakingModules: PTEModule[] = [
       scoring: {
         marks: '10-12分',
         components: '流利度(5) + 内容(6) + 发音(5)',
-        weight: 'medium',
       },
       timeLimit: '10秒准备 + 40秒说话',
       questionCount: '2-3题',
@@ -338,14 +326,12 @@ export const speakingModules: PTEModule[] = [
     name: 'Answer Short Question',
     fullName: 'Answer Short Question',
     category: 'speaking',
-    priority: 'low',
     icon: 'HelpCircle',
     color: '#F59E0B',
     content: {
       overview: 'Answer a simple question with one or few words. Almost no marks contribution - just 1 mark to Listening.',
       scoring: {
         marks: '~1 mark to Listening',
-        weight: 'low',
       },
       timeLimit: 'No preparation time',
       questionCount: '3-4 questions',
@@ -365,7 +351,6 @@ export const speakingModules: PTEModule[] = [
       overview: '用一两个词回答简单问题。几乎不贡献分数——只有1分计入听力。',
       scoring: {
         marks: '约1分到听力',
-        weight: 'low',
       },
       timeLimit: '无准备时间',
       questionCount: '3-4题',
@@ -387,7 +372,6 @@ export const speakingModules: PTEModule[] = [
     name: 'Summarize Group Discussion',
     fullName: 'Summarize Group Discussion',
     category: 'speaking',
-    priority: 'medium',
     icon: 'Users',
     color: '#6366F1',
     content: {
@@ -395,7 +379,6 @@ export const speakingModules: PTEModule[] = [
       scoring: {
         marks: '15-20 marks',
         components: 'Fluency (5) + Content (6) + Pronunciation (5)',
-        weight: 'medium',
       },
       timeLimit: '10s prep + ~90s speak',
       questionCount: '2-3 questions',
@@ -433,7 +416,6 @@ export const speakingModules: PTEModule[] = [
       scoring: {
         marks: '15-20分',
         components: '流利度(5) + 内容(6) + 发音(5)',
-        weight: 'medium',
       },
       timeLimit: '10秒准备 + 约90秒说话',
       questionCount: '2-3题',
@@ -472,7 +454,6 @@ export const speakingModules: PTEModule[] = [
     name: 'Respond to Situation',
     fullName: 'Respond to Situation',
     category: 'speaking',
-    priority: 'medium',
     icon: 'MessageSquare',
     color: '#14B8A6',
     content: {
@@ -480,7 +461,6 @@ export const speakingModules: PTEModule[] = [
       scoring: {
         marks: '10-12 marks',
         components: 'Fluency (5) + Content (6) + Pronunciation (5)',
-        weight: 'medium',
       },
       timeLimit: '20s prep + 40s speak',
       questionCount: '2-3 questions',
@@ -514,7 +494,6 @@ export const speakingModules: PTEModule[] = [
       scoring: {
         marks: '10-12分',
         components: '流利度(5) + 内容(6) + 发音(5)',
-        weight: 'medium',
       },
       timeLimit: '20秒准备 + 40秒说话',
       questionCount: '2-3题',
@@ -552,7 +531,6 @@ export const writingModules: PTEModule[] = [
     name: 'Summarize Written Text',
     fullName: 'Summarize Written Text',
     category: 'writing',
-    priority: 'medium',
     icon: 'FileText',
     color: '#3B82F6',
     content: {
@@ -560,7 +538,6 @@ export const writingModules: PTEModule[] = [
       scoring: {
         marks: '18-20 marks (9-10 reading, 9-10 writing)',
         components: 'Content (4) + Form (1) + Grammar (2) + Vocabulary (2)',
-        weight: 'medium',
       },
       timeLimit: '10 minutes per question',
       questionCount: '2 questions',
@@ -606,7 +583,6 @@ export const writingModules: PTEModule[] = [
       scoring: {
         marks: '18-20分（9-10阅读，9-10写作）',
         components: '内容(4) + 形式(1) + 语法(2) + 词汇(2)',
-        weight: 'medium',
       },
       timeLimit: '每题10分钟',
       questionCount: '2题',
@@ -653,7 +629,6 @@ export const writingModules: PTEModule[] = [
     name: 'Essay Writing',
     fullName: 'Essay Writing',
     category: 'writing',
-    priority: 'high',
     icon: 'PenTool',
     color: '#8B5CF6',
     content: {
@@ -661,7 +636,6 @@ export const writingModules: PTEModule[] = [
       scoring: {
         marks: '26-30 marks',
         components: 'Content (6) + Structure (6) + Linguistic Range (6) + Grammar (2) + Spelling (2) + Vocabulary (2) + Form (2)',
-        weight: 'high',
       },
       timeLimit: '20 minutes',
       questionCount: '1 question',
@@ -722,7 +696,6 @@ export const writingModules: PTEModule[] = [
       scoring: {
         marks: '26-30分',
         components: '内容(6) + 结构(6) + 语言范围(6) + 语法(2) + 拼写(2) + 词汇(2) + 形式(2)',
-        weight: 'high',
       },
       timeLimit: '20分钟',
       questionCount: '1题',
@@ -787,14 +760,12 @@ export const readingModules: PTEModule[] = [
     name: 'Reading & Writing Fill in the Blanks',
     fullName: 'Reading & Writing Fill in the Blanks',
     category: 'reading',
-    priority: 'high',
     icon: 'Pencil',
     color: '#3B82F6',
     content: {
       overview: 'Select the correct word from 4 options to fill each blank. Contributes marks ONLY to Reading now (previously to both).',
       scoring: {
         marks: '23-26 marks to Reading',
-        weight: 'high',
       },
       timeLimit: '2 minutes per question',
       questionCount: '5 questions',
@@ -823,7 +794,6 @@ export const readingModules: PTEModule[] = [
       overview: '从4个选项中选择正确的词填入每个空格。现在只贡献阅读分数（之前两者都算）。',
       scoring: {
         marks: '23-26分到阅读',
-        weight: 'high',
       },
       timeLimit: '每题2分钟',
       questionCount: '5题',
@@ -854,14 +824,12 @@ export const readingModules: PTEModule[] = [
     name: 'Reorder Paragraph',
     fullName: 'Reorder Paragraph',
     category: 'reading',
-    priority: 'medium',
     icon: 'Shuffle',
     color: '#8B5CF6',
     content: {
       overview: 'Rearrange scattered sentences into a logical paragraph. 6-7 marks to Reading.',
       scoring: {
         marks: '6-7 marks',
-        weight: 'medium',
       },
       timeLimit: '1 minute per question (MAX)',
       questionCount: '2-3 questions',
@@ -886,7 +854,6 @@ export const readingModules: PTEModule[] = [
       overview: '将分散的句子重新排列成逻辑段落。6-7分计入阅读。',
       scoring: {
         marks: '6-7分',
-        weight: 'medium',
       },
       timeLimit: '每题最多1分钟',
       questionCount: '2-3题',
@@ -913,14 +880,12 @@ export const readingModules: PTEModule[] = [
     name: 'Reading Fill in the Blanks',
     fullName: 'Reading Fill in the Blanks',
     category: 'reading',
-    priority: 'high',
     icon: 'Clipboard',
     color: '#EC4899',
     content: {
       overview: 'Drag and drop words from a list to fill blanks. Each word used only once. 20-25 marks to Reading.',
       scoring: {
         marks: '20-25 marks',
-        weight: 'high',
       },
       timeLimit: '2 minutes per question',
       questionCount: '4-5 questions',
@@ -947,7 +912,6 @@ export const readingModules: PTEModule[] = [
       overview: '从列表中拖放单词填入空格。每个词只能用一次。20-25分计入阅读。',
       scoring: {
         marks: '20-25分',
-        weight: 'high',
       },
       timeLimit: '每题2分钟',
       questionCount: '4-5题',
@@ -976,14 +940,12 @@ export const readingModules: PTEModule[] = [
     name: 'Multiple Choice (Multiple)',
     fullName: 'Multiple Choice (Multiple Answer)',
     category: 'reading',
-    priority: 'low',
     icon: 'CheckSquare',
     color: '#F59E0B',
     content: {
       overview: 'Select multiple correct answers from options. Has negative marking. Low priority.',
       scoring: {
         marks: '2-3 marks',
-        weight: 'low',
       },
       timeLimit: 'Quick',
       questionCount: '2-3 questions',
@@ -1002,7 +964,6 @@ export const readingModules: PTEModule[] = [
       overview: '从选项中选择多个正确答案。有倒扣分。低优先级。',
       scoring: {
         marks: '2-3分',
-        weight: 'low',
       },
       timeLimit: '快速',
       questionCount: '2-3题',
@@ -1023,14 +984,12 @@ export const readingModules: PTEModule[] = [
     name: 'Multiple Choice (Single)',
     fullName: 'Multiple Choice (Single Answer)',
     category: 'reading',
-    priority: 'low',
     icon: 'CircleDot',
     color: '#10B981',
     content: {
       overview: 'Select ONE correct answer from options. One or two questions only.',
       scoring: {
         marks: '2-3 marks',
-        weight: 'low',
       },
       timeLimit: 'Quick',
       questionCount: '1-2 questions',
@@ -1048,7 +1007,6 @@ export const readingModules: PTEModule[] = [
       overview: '从选项中选择一个正确答案。只有一两题。',
       scoring: {
         marks: '2-3分',
-        weight: 'low',
       },
       timeLimit: '快速',
       questionCount: '1-2题',
@@ -1071,7 +1029,6 @@ export const listeningModules: PTEModule[] = [
     name: 'Summarize Spoken Text',
     fullName: 'Summarize Spoken Text',
     category: 'listening',
-    priority: 'high',
     icon: 'FileText',
     color: '#8B5CF6',
     content: {
@@ -1079,7 +1036,6 @@ export const listeningModules: PTEModule[] = [
       scoring: {
         marks: '10-12 to Listening, 12-15 to Writing',
         components: 'Content (4) + Grammar (2) + Vocabulary (2) + Spelling (2) + Form (2)',
-        weight: 'high',
       },
       timeLimit: '10 minutes (audio 40s-1.5min)',
       questionCount: '1 question',
@@ -1127,7 +1083,6 @@ export const listeningModules: PTEModule[] = [
       scoring: {
         marks: '10-12到听力，12-15到写作',
         components: '内容(4) + 语法(2) + 词汇(2) + 拼写(2) + 形式(2)',
-        weight: 'high',
       },
       timeLimit: '10分钟（音频40秒-1.5分钟）',
       questionCount: '1题',
@@ -1169,7 +1124,6 @@ export const listeningModules: PTEModule[] = [
     name: 'Write From Dictation',
     fullName: 'Write From Dictation',
     category: 'listening',
-    priority: 'high',
     icon: 'Pencil',
     color: '#EC4899',
     content: {
@@ -1177,7 +1131,6 @@ export const listeningModules: PTEModule[] = [
       scoring: {
         marks: '35-40 to Writing, 11-14 to Listening',
         components: 'Each correct word = 1 mark to Writing + 1 mark to Listening',
-        weight: 'high',
       },
       timeLimit: '1 minute per question',
       questionCount: '3-4 questions',
@@ -1214,7 +1167,6 @@ export const listeningModules: PTEModule[] = [
       scoring: {
         marks: '35-40到写作，11-14到听力',
         components: '每个正确的词 = 1分到写作 + 1分到听力',
-        weight: 'high',
       },
       timeLimit: '每题1分钟',
       questionCount: '3-4题',
@@ -1252,7 +1204,6 @@ export const listeningModules: PTEModule[] = [
     name: 'Highlight Incorrect Words',
     fullName: 'Highlight Incorrect Words',
     category: 'listening',
-    priority: 'high',
     icon: 'AlertTriangle',
     color: '#EF4444',
     content: {
@@ -1260,7 +1211,6 @@ export const listeningModules: PTEModule[] = [
       scoring: {
         marks: '12-15 to Listening, 12-15 to Reading',
         components: 'Each correctly identified word = 1 mark; wrong selection = -1 mark',
-        weight: 'high',
       },
       timeLimit: 'Audio plays once',
       questionCount: '2-3 questions',
@@ -1290,7 +1240,6 @@ export const listeningModules: PTEModule[] = [
       scoring: {
         marks: '12-15到听力，12-15到阅读',
         components: '每个正确识别的词 = 1分；错误选择 = -1分',
-        weight: 'high',
       },
       timeLimit: '音频只播放一次',
       questionCount: '2-3题',
@@ -1321,14 +1270,12 @@ export const listeningModules: PTEModule[] = [
     name: 'Listening Fill in the Blanks',
     fullName: 'Listening Fill in the Blanks',
     category: 'listening',
-    priority: 'medium',
     icon: 'Clipboard',
     color: '#10B981',
     content: {
       overview: 'Type the words you hear in the blanks while following along with the audio. 7-8 marks to Listening. Spelling is critical.',
       scoring: {
         marks: '7-8 marks to Listening',
-        weight: 'medium',
       },
       timeLimit: 'Audio plays once',
       questionCount: '2-3 questions',
@@ -1359,7 +1306,6 @@ export const listeningModules: PTEModule[] = [
       overview: '跟随音频在空格中输入你听到的词。7-8分到听力。拼写至关重要。',
       scoring: {
         marks: '7-8分到听力',
-        weight: 'medium',
       },
       timeLimit: '音频只播放一次',
       questionCount: '2-3题',
@@ -1392,14 +1338,12 @@ export const listeningModules: PTEModule[] = [
     name: 'Listening Multiple Choice',
     fullName: 'Listening Multiple Choice (Multiple Answer)',
     category: 'listening',
-    priority: 'low',
     icon: 'CheckSquare',
     color: '#F59E0B',
     content: {
       overview: 'Select multiple correct answers from audio-based options. Has negative marking. 1-3 questions.',
       scoring: {
         marks: '2-3 marks',
-        weight: 'low',
       },
       timeLimit: 'Answer after audio ends',
       questionCount: '1-3 questions',
@@ -1424,7 +1368,6 @@ export const listeningModules: PTEModule[] = [
       overview: '从基于音频的选项中选择多个正确答案。有倒扣分。1-3题。',
       scoring: {
         marks: '2-3分',
-        weight: 'low',
       },
       timeLimit: '音频结束后答题',
       questionCount: '1-3题',
@@ -1451,14 +1394,12 @@ export const listeningModules: PTEModule[] = [
     name: 'Highlight Correct Summary',
     fullName: 'Highlight Correct Summary',
     category: 'listening',
-    priority: 'low',
     icon: 'BookOpen',
     color: '#6366F1',
     content: {
       overview: 'Select the correct summary of the audio from multiple options. 1-2 marks to both Listening and Reading.',
       scoring: {
         marks: '1-2 to Listening, 1-2 to Reading',
-        weight: 'low',
       },
       timeLimit: 'Answer after audio ends',
       questionCount: '1-2 questions',
@@ -1483,7 +1424,6 @@ export const listeningModules: PTEModule[] = [
       overview: '从多个选项中选择音频的正确总结。1-2分到听力和阅读。',
       scoring: {
         marks: '1-2到听力，1-2到阅读',
-        weight: 'low',
       },
       timeLimit: '音频结束后答题',
       questionCount: '1-2题',
@@ -1510,14 +1450,12 @@ export const listeningModules: PTEModule[] = [
     name: 'Listening Multiple Choice (Single)',
     fullName: 'Listening Multiple Choice (Single Answer)',
     category: 'listening',
-    priority: 'low',
     icon: 'CircleDot',
     color: '#14B8A6',
     content: {
       overview: 'Select ONE correct answer from options. No negative marking. Similar to reading single choice.',
       scoring: {
         marks: '1-2 marks',
-        weight: 'low',
       },
       timeLimit: 'Answer after audio ends',
       questionCount: '1-2 questions',
@@ -1541,7 +1479,6 @@ export const listeningModules: PTEModule[] = [
       overview: '从选项中选择一个正确答案。无倒扣分。类似于阅读单选题。',
       scoring: {
         marks: '1-2分',
-        weight: 'low',
       },
       timeLimit: '音频结束后答题',
       questionCount: '1-2题',
@@ -1567,14 +1504,12 @@ export const listeningModules: PTEModule[] = [
     name: 'Select Missing Word',
     fullName: 'Select Missing Word',
     category: 'listening',
-    priority: 'low',
     icon: 'HelpCircle',
     color: '#F97316',
     content: {
       overview: 'Audio plays with a "beep" replacing the final word. Select the word that completes the sentence. 1-2 marks.',
       scoring: {
         marks: '1-2 marks',
-        weight: 'low',
       },
       timeLimit: 'Answer after audio ends',
       questionCount: '1-2 questions',
@@ -1598,7 +1533,6 @@ export const listeningModules: PTEModule[] = [
       overview: '音频播放时用一个"哔"声替换最后一个词。选择完成句子的词。1-2分。',
       scoring: {
         marks: '1-2分',
-        weight: 'low',
       },
       timeLimit: '音频结束后答题',
       questionCount: '1-2题',

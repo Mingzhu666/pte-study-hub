@@ -1,44 +1,83 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { PTEModule, Category as CategoryType } from '@/types/pte';
 import { categories } from '@/data/pteModules';
 import { useLanguage } from '@/context/LanguageContext';
+import { useTarget } from '@/context/SummitMasteryContext';
+import { legacyPriorityForTarget, type LegacyPriority } from '@/data/commandMap';
 import type { TranslationKey } from '@/data/translations';
-import * as Icons from 'lucide-react';
-import SummitClimb from '@/components/SummitClimb';
+import {
+  AlertTriangle,
+  BookOpen,
+  CheckSquare,
+  ChevronRight,
+  ChevronsLeft,
+  ChevronsRight,
+  CircleDot,
+  Clipboard,
+  FileText,
+  Globe,
+  GraduationCap,
+  Headphones,
+  HelpCircle,
+  Home as HomeIcon,
+  Image,
+  Map,
+  MessageSquare,
+  Mic,
+  PenTool,
+  Pencil,
+  Repeat,
+  Shuffle,
+  Users,
+  Volume2,
+} from 'lucide-react';
+import SkillField from '@/components/SkillField';
 
 type ViewState =
-  | { type: 'empty' }
+  | { type: 'skillField' }
   | { type: 'category'; category: CategoryType }
   | { type: 'module'; module: PTEModule };
 
-const categoryColors: Record<string, string> = {
-  speaking: '#FF375F',
-  writing: '#0071E3',
-  reading: '#30D158',
-  listening: '#BF5AF2',
-};
-
-const priorityColors: Record<string, string> = {
-  high: '#FF375F',
-  medium: '#FF9F0A',
-  low: '#30D158',
-};
+const NEUTRAL_ICON_COLOR = '#6E6E73';
+const NEUTRAL_ICON_BG = 'rgba(0,0,0,0.04)';
 
 const smooth = { duration: 0.35, ease: [0.4, 0, 0.2, 1] as const };
 
-const priorityTranslationKeys: Record<PTEModule['priority'], TranslationKey> = {
+const priorityTranslationKeys: Record<LegacyPriority, TranslationKey> = {
   high: 'highPriority',
   medium: 'mediumPriority',
   low: 'lowPriority',
 };
 
+const SKILL_FIELD_MAP_COLLAPSED_KEY = 'pte-skill-field-map-collapsed';
+
 export default function Home() {
-  const [viewState, setViewState] = useState<ViewState>({ type: 'empty' });
+  const [viewState, setViewState] = useState<ViewState>({ type: 'skillField' });
   const [expandedCategories, setExpandedCategories] = useState<string[]>(['speaking', 'writing', 'reading', 'listening']);
+  const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
+  const [skillFieldMapCollapsed, setSkillFieldMapCollapsed] = useState(false);
+
+  useEffect(() => {
+    if (typeof window === 'undefined') return;
+    const skillStored = window.localStorage.getItem(SKILL_FIELD_MAP_COLLAPSED_KEY);
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    if (skillStored === 'true') setSkillFieldMapCollapsed(true);
+  }, []);
+
+  useEffect(() => {
+    if (typeof window === 'undefined') return;
+    window.localStorage.setItem(SKILL_FIELD_MAP_COLLAPSED_KEY, String(skillFieldMapCollapsed));
+  }, [skillFieldMapCollapsed]);
+
+  const handleSkillFieldClick = () => {
+    setViewState({ type: 'skillField' });
+    setSkillFieldMapCollapsed(false);
+  };
   const { language, setLanguage, t } = useLanguage();
+  const { target } = useTarget();
   const allModules = categories.flatMap((category) => category.modules);
 
   const toggleLanguage = () => {
@@ -64,27 +103,27 @@ export default function Home() {
 
   const getIcon = (iconName: string) => {
     const icons: Record<string, React.ComponentType<{ size?: number; color?: string; strokeWidth?: number }>> = {
-      Volume2: Icons.Volume2,
-      Repeat: Icons.Repeat,
-      Image: Icons.Image,
-      Mic: Icons.Mic,
-      HelpCircle: Icons.HelpCircle,
-      Users: Icons.Users,
-      MessageSquare: Icons.MessageSquare,
-      FileText: Icons.FileText,
-      Pencil: Icons.Pencil,
-      Shuffle: Icons.Shuffle,
-      Clipboard: Icons.Clipboard,
-      CheckSquare: Icons.CheckSquare,
-      CircleDot: Icons.CircleDot,
-      BookOpen: Icons.BookOpen,
-      Headphones: Icons.Headphones,
-      PenTool: Icons.PenTool,
-      GraduationCap: Icons.GraduationCap,
-      Home: Icons.Home,
-      AlertTriangle: Icons.AlertTriangle,
+      Volume2: Volume2,
+      Repeat: Repeat,
+      Image: Image,
+      Mic: Mic,
+      HelpCircle: HelpCircle,
+      Users: Users,
+      MessageSquare: MessageSquare,
+      FileText: FileText,
+      Pencil: Pencil,
+      Shuffle: Shuffle,
+      Clipboard: Clipboard,
+      CheckSquare: CheckSquare,
+      CircleDot: CircleDot,
+      BookOpen: BookOpen,
+      Headphones: Headphones,
+      PenTool: PenTool,
+      GraduationCap: GraduationCap,
+      Home: HomeIcon,
+      AlertTriangle: AlertTriangle,
     };
-    return icons[iconName] || Icons.HelpCircle;
+    return icons[iconName] || HelpCircle;
   };
 
   const getCategoryName = (categoryId: string) => {
@@ -105,17 +144,17 @@ export default function Home() {
   };
 
   const getCategoryIcon = (id: string) => {
-    if (id === 'speaking') return Icons.Mic;
-    if (id === 'writing') return Icons.PenTool;
-    if (id === 'reading') return Icons.BookOpen;
-    return Icons.Headphones;
+    if (id === 'speaking') return Mic;
+    if (id === 'writing') return PenTool;
+    if (id === 'reading') return BookOpen;
+    return Headphones;
   };
 
   return (
-    <div className="min-h-screen flex" style={{ background: '#FBFBFD' }}>
+    <div className={`app-shell ${sidebarCollapsed ? 'sidebar-collapsed' : ''}`} style={{ background: '#FBFBFD' }}>
       {/* Sidebar */}
       <aside
-        className="sidebar-wrap w-[272px] h-screen sticky top-0 flex flex-col"
+        className="sidebar-wrap app-sidebar h-screen sticky top-0 flex flex-col"
       >
         {/* Logo */}
         <div className="p-5 pb-4" style={{ borderBottom: '1px solid rgba(0,0,0,0.06)' }}>
@@ -125,28 +164,43 @@ export default function Home() {
                 className="w-9 h-9 rounded-[10px] flex items-center justify-center"
                 style={{ background: 'linear-gradient(135deg, #0071E3, #BF5AF2)' }}
               >
-                <Icons.GraduationCap size={20} color="white" strokeWidth={1.8} />
+                <GraduationCap size={20} color="white" strokeWidth={1.8} />
               </div>
-              <div>
+              <div className="sidebar-logo-copy">
                 <h1 style={{ color: '#1D1D1F', fontSize: '15px', fontWeight: 600, letterSpacing: '-0.02em' }}>PTE Study Hub</h1>
-                <p style={{ color: '#A1A1A6', fontSize: '11px', fontWeight: 500 }}>2025 Latest Updates</p>
               </div>
             </div>
-            <motion.button
-              whileTap={{ scale: 0.95 }}
-              onClick={toggleLanguage}
-              className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg text-xs font-medium"
-              style={{
-                color: '#6E6E73',
-                background: 'rgba(0,0,0,0.03)',
-                transition: 'background 0.2s',
-              }}
-              onMouseEnter={e => (e.currentTarget.style.background = 'rgba(0,0,0,0.06)')}
-              onMouseLeave={e => (e.currentTarget.style.background = 'rgba(0,0,0,0.03)')}
-            >
-              <Icons.Globe size={14} strokeWidth={1.8} />
-              {language === 'en' ? '中' : 'EN'}
-            </motion.button>
+            <div className="sidebar-header-actions">
+              <button
+                type="button"
+                onClick={() => setSidebarCollapsed((current) => !current)}
+                className="sidebar-collapse-button"
+                aria-label={sidebarCollapsed ? 'Expand navigation' : 'Collapse navigation'}
+                title={sidebarCollapsed ? 'Expand navigation' : 'Collapse navigation'}
+              >
+                {sidebarCollapsed ? (
+                  <ChevronsRight size={16} strokeWidth={1.8} />
+                ) : (
+                  <ChevronsLeft size={16} strokeWidth={1.8} />
+                )}
+              </button>
+              <motion.button
+                whileTap={{ scale: 0.95 }}
+                onClick={toggleLanguage}
+                className="sidebar-language-button flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg text-xs font-medium"
+                style={{
+                  color: '#6E6E73',
+                  background: 'rgba(0,0,0,0.03)',
+                  transition: 'background 0.2s',
+                }}
+                onMouseEnter={e => (e.currentTarget.style.background = 'rgba(0,0,0,0.06)')}
+                onMouseLeave={e => (e.currentTarget.style.background = 'rgba(0,0,0,0.03)')}
+                title={language === 'en' ? t('sidebarSwitchToZh') : t('sidebarSwitchToEn')}
+              >
+                <Globe size={14} strokeWidth={1.8} />
+                <span className="sidebar-language-label">{language === 'en' ? t('sidebarLanguageLabelZh') : t('sidebarLanguageLabelEn')}</span>
+              </motion.button>
+            </div>
           </div>
         </div>
 
@@ -154,21 +208,26 @@ export default function Home() {
         <nav className="flex-1 overflow-y-auto p-3 pt-3">
           <motion.button
             whileTap={{ scale: 0.98 }}
-            onClick={() => setViewState({ type: 'empty' })}
+            onClick={handleSkillFieldClick}
             className="w-full flex items-center gap-3 p-2.5 rounded-[10px] mb-3"
+            title={skillFieldMapCollapsed && viewState.type === 'skillField' ? `${t('skillField')} · ${t('sidebarExpandMapSuffix')}` : t('skillField')}
             style={{
-              background: viewState.type === 'empty' ? 'rgba(0,113,227,0.06)' : 'transparent',
-              color: viewState.type === 'empty' ? '#0071E3' : '#6E6E73',
+              background: viewState.type === 'skillField' ? 'rgba(255,77,46,0.08)' : 'transparent',
+              color: viewState.type === 'skillField' ? '#ff4d2e' : '#6E6E73',
               transition: 'all 0.2s',
             }}
-            onMouseEnter={e => { if (viewState.type !== 'empty') e.currentTarget.style.background = 'rgba(0,0,0,0.03)'; }}
-            onMouseLeave={e => { if (viewState.type !== 'empty') e.currentTarget.style.background = 'transparent'; }}
+            onMouseEnter={e => { if (viewState.type !== 'skillField') e.currentTarget.style.background = 'rgba(0,0,0,0.03)'; }}
+            onMouseLeave={e => { if (viewState.type !== 'skillField') e.currentTarget.style.background = 'transparent'; }}
           >
-            <Icons.Home size={18} strokeWidth={1.8} />
-            <span style={{ fontSize: '14px', fontWeight: 500 }}>{t('allModules')}</span>
+            <span className="sidebar-nav-label" style={{ fontSize: '14px', fontWeight: 500 }}>{t('skillField')}</span>
+            {skillFieldMapCollapsed && viewState.type === 'skillField' && (
+              <span className="sidebar-map-hint" aria-label={t('sidebarExpandSkillMap')}>
+                <Map size={14} strokeWidth={1.8} />
+              </span>
+            )}
           </motion.button>
 
-          <p className="section-title">{t('categories')}</p>
+          <p className="sidebar-nav-heading sidebar-section-title">{t('categories')}</p>
 
           {categories.map((category) => {
             const isExpanded = expandedCategories.includes(category.id);
@@ -180,24 +239,25 @@ export default function Home() {
                 <button
                   onClick={() => handleCategoryClick(category)}
                   className={`category-btn ${isExpanded ? 'expanded' : ''} ${isActive ? 'active' : ''}`}
+                  title={getCategoryName(category.id)}
                   style={{
                     background: isActive ? 'rgba(0,113,227,0.06)' : 'transparent',
                     color: isActive ? '#0071E3' : '#1D1D1F'
                   }}
                 >
-                  <div
-                    className="w-7 h-7 rounded-[8px] flex items-center justify-center"
-                    style={{ background: `${categoryColors[category.id]}10` }}
+                  <span
+                    className="sidebar-icon-cell w-7 h-7 rounded-[8px] flex items-center justify-center"
+                    style={{ background: NEUTRAL_ICON_BG }}
                   >
-                    <IconComponent size={15} color={categoryColors[category.id]} strokeWidth={1.8} />
-                  </div>
-                  <span style={{ fontWeight: 500, flex: 1, fontSize: '14px' }}>{getCategoryName(category.id)}</span>
-                  <span style={{ color: '#A1A1A6', fontSize: '12px' }}>{category.modules.length}</span>
-                  <Icons.ChevronRight size={14} className="chevron" style={{ color: '#A1A1A6' }} />
+                    <IconComponent size={15} color={NEUTRAL_ICON_COLOR} strokeWidth={1.8} />
+                  </span>
+                  <span className="sidebar-nav-label" style={{ fontWeight: 500, flex: 1, fontSize: '14px' }}>{getCategoryName(category.id)}</span>
+                  <span className="sidebar-meta" style={{ color: '#A1A1A6', fontSize: '12px' }}>{category.modules.length}</span>
+                  <ChevronRight size={14} className="chevron sidebar-meta" style={{ color: '#A1A1A6' }} />
                 </button>
 
                 <AnimatePresence>
-                  {isExpanded && (
+                  {isExpanded && !sidebarCollapsed && (
                     <motion.div
                       initial={{ height: 0, opacity: 0 }}
                       animate={{ height: 'auto', opacity: 1 }}
@@ -210,18 +270,17 @@ export default function Home() {
                           const ModuleIcon = getIcon(module.icon);
                           const isSelected = viewState.type === 'module' && viewState.module.id === module.id;
 
+                          const isHighPriority = legacyPriorityForTarget(module.id, target) === 'high';
                           return (
                             <button
                               key={module.id}
                               onClick={() => handleModuleClick(module)}
                               className={`module-item ${isSelected ? 'active' : ''}`}
+                              title={module.name}
                             >
                               <ModuleIcon size={14} color={isSelected ? '#0071E3' : '#A1A1A6'} strokeWidth={1.8} />
                               <span className="flex-1">{module.name}</span>
-                              <span
-                                className="priority-dot"
-                                style={{ background: priorityColors[module.priority] }}
-                              />
+                              {isHighPriority && <span aria-label="High priority" className="priority-fire">🔥</span>}
                             </button>
                           );
                         })}
@@ -236,19 +295,24 @@ export default function Home() {
       </aside>
 
       {/* Main Content */}
-      <main className="flex-1 min-h-screen">
+      <main className="app-main min-h-screen">
         <AnimatePresence mode="wait">
-          {/* Empty State */}
-          {viewState.type === 'empty' && (
+          {/* Skill Field (Skill Map view) */}
+          {viewState.type === 'skillField' && (
             <motion.div
-              key="empty"
+              key="skill-field"
               initial={{ opacity: 0, y: 12, scale: 0.99 }}
               animate={{ opacity: 1, y: 0, scale: 1 }}
               exit={{ opacity: 0, y: -8 }}
               transition={smooth}
-              className="command-map-view"
+              className="skill-field-view"
             >
-              <SummitClimb modules={allModules} onOpenModule={handleModuleClick} />
+              <SkillField
+                modules={allModules}
+                onOpenModule={handleModuleClick}
+                mapCollapsed={skillFieldMapCollapsed}
+                onCollapseMap={() => setSkillFieldMapCollapsed(true)}
+              />
             </motion.div>
           )}
 
@@ -265,11 +329,11 @@ export default function Home() {
               <div className="flex items-center gap-5 mb-10">
                 <div
                   className="w-14 h-14 rounded-[16px] flex items-center justify-center"
-                  style={{ background: `${categoryColors[viewState.category.id]}10` }}
+                  style={{ background: NEUTRAL_ICON_BG }}
                 >
                   {(() => {
                     const IconComponent = getCategoryIcon(viewState.category.id);
-                    return <IconComponent size={28} color={categoryColors[viewState.category.id]} strokeWidth={1.6} />;
+                    return <IconComponent size={28} color={NEUTRAL_ICON_COLOR} strokeWidth={1.6} />;
                   })()}
                 </div>
                 <div>
@@ -286,6 +350,7 @@ export default function Home() {
                 {viewState.category.modules.map((module, index) => {
                   const IconComponent = getIcon(module.icon);
                   const content = getModuleContent(module);
+                  const modulePriority = legacyPriorityForTarget(module.id, target);
 
                   return (
                     <motion.button
@@ -301,21 +366,15 @@ export default function Home() {
                       <div className="flex items-center gap-3 mb-4">
                         <div
                           className="w-9 h-9 rounded-[10px] flex items-center justify-center"
-                          style={{ background: `${module.color}12` }}
+                          style={{ background: NEUTRAL_ICON_BG }}
                         >
-                          <IconComponent size={18} color={module.color} strokeWidth={1.8} />
+                          <IconComponent size={18} color={NEUTRAL_ICON_COLOR} strokeWidth={1.8} />
                         </div>
                         <div className="flex-1 min-w-0">
-                          <h3 style={{ color: '#1D1D1F', fontWeight: 600, fontSize: '14px', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{module.name}</h3>
-                          <span
-                            className="badge"
-                            style={{
-                              background: `${priorityColors[module.priority]}14`,
-                              color: priorityColors[module.priority]
-                            }}
-                          >
-                            {t(priorityTranslationKeys[module.priority])}
-                          </span>
+                          <h3 style={{ color: '#1D1D1F', fontWeight: 600, fontSize: '14px', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
+                            {module.name}
+                            {modulePriority === 'high' && <span aria-label="High priority" style={{ marginLeft: 6 }}>🔥</span>}
+                          </h3>
                         </div>
                       </div>
                       <p className="line-clamp-2" style={{ color: '#6E6E73', fontSize: '13px', lineHeight: 1.6, marginBottom: '16px' }}>
@@ -341,6 +400,7 @@ export default function Home() {
           {viewState.type === 'module' && (
             (() => {
               const content = getModuleContent(viewState.module);
+              const detailPriority = legacyPriorityForTarget(viewState.module.id, target);
               return (
                 <motion.div
                   key={viewState.module.id}
@@ -354,27 +414,19 @@ export default function Home() {
                   <div className="flex items-start gap-5 mb-10">
                     <div
                       className="w-12 h-12 rounded-[14px] flex items-center justify-center flex-shrink-0"
-                      style={{ background: `${viewState.module.color}10` }}
+                      style={{ background: NEUTRAL_ICON_BG }}
                     >
                       {(() => {
                         const IconComponent = getIcon(viewState.module.icon);
-                        return <IconComponent size={24} color={viewState.module.color} strokeWidth={1.6} />;
+                        return <IconComponent size={24} color={NEUTRAL_ICON_COLOR} strokeWidth={1.6} />;
                       })()}
                     </div>
                     <div className="flex-1">
                       <h1 style={{ color: '#1D1D1F', fontSize: '28px', fontWeight: 600, letterSpacing: '-0.03em', marginBottom: '10px' }}>
                         {viewState.module.name}
+                        {detailPriority === 'high' && <span aria-label="High priority" style={{ marginLeft: 10 }}>🔥</span>}
                       </h1>
                       <div className="flex items-center gap-2.5 flex-wrap">
-                        <span
-                          className="badge"
-                          style={{
-                            background: `${priorityColors[viewState.module.priority]}14`,
-                            color: priorityColors[viewState.module.priority]
-                          }}
-                        >
-                          {t(priorityTranslationKeys[viewState.module.priority])}
-                        </span>
                         <span style={{ fontSize: '12px', padding: '3px 10px', borderRadius: '6px', background: 'rgba(0,0,0,0.03)', color: '#6E6E73' }}>
                           {content.questionCount}
                         </span>
@@ -415,11 +467,9 @@ export default function Home() {
                         )}
                         <div className="quick-stat">
                           <p className="stat-label">{t('weight')}</p>
-                          <p
-                            className="stat-value"
-                            style={{ color: priorityColors[content.scoring.weight] }}
-                          >
-                            {content.scoring.weight.toUpperCase()}
+                          <p className="stat-value" style={{ color: '#1D1D1F' }}>
+                            {t(priorityTranslationKeys[detailPriority])}
+                            {detailPriority === 'high' && <span aria-label="High priority" style={{ marginLeft: 6 }}>🔥</span>}
                           </p>
                         </div>
                       </div>
@@ -463,7 +513,7 @@ export default function Home() {
                     {viewState.module.content.template && viewState.module.content.template.length > 0 && (
                       <div className="content-card">
                         <h3 style={{ fontSize: '11px', fontWeight: 600, textTransform: 'uppercase' as const, letterSpacing: '0.08em', color: '#A1A1A6', marginBottom: '16px' }}>
-                          Template / Structure
+                          {t('template')}
                         </h3>
                         <div className="template-box">
                           {viewState.module.content.template.map((line, index) => {

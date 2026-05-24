@@ -9,6 +9,7 @@ export interface RaMirrorScore {
   missed: string[];
   mispronounced: string[];
   comment: string;
+  transcript?: string;
 }
 
 export function tokenize(sentence: string): string[] {

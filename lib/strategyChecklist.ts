@@ -1,4 +1,5 @@
 import type { PTEModule } from '@/types/pte';
+import type { BilingualList, CommandTarget } from '@/data/commandMap';
 
 export interface StrategyItem {
   id: string;
@@ -16,11 +17,24 @@ export function fnv1a32(text: string): string {
 
 const MAX_ITEMS = 8;
 
-export function buildStrategyList(module: PTEModule, lang: 'en' | 'zh'): StrategyItem[] {
-  const enSource = [...(module.content.strategy ?? []), ...(module.content.tips ?? [])];
-  const zhSource = module.contentZh
-    ? [...(module.contentZh.strategy ?? []), ...(module.contentZh.tips ?? [])]
-    : [];
+interface TargetStrategySource {
+  target: CommandTarget;
+  checklist: BilingualList;
+}
+
+export function buildStrategyList(
+  module: PTEModule,
+  lang: 'en' | 'zh',
+  targetStrategy?: TargetStrategySource,
+): StrategyItem[] {
+  const enSource = targetStrategy
+    ? targetStrategy.checklist.en
+    : [...(module.content.strategy ?? []), ...(module.content.tips ?? [])];
+  const zhSource = targetStrategy
+    ? targetStrategy.checklist.zh
+    : (module.contentZh
+      ? [...(module.contentZh.strategy ?? []), ...(module.contentZh.tips ?? [])]
+      : []);
 
   const seen = new Set<string>();
   const items: StrategyItem[] = [];
@@ -35,7 +49,7 @@ export function buildStrategyList(module: PTEModule, lang: 'en' | 'zh'): Strateg
     const display = lang === 'zh' && zhText ? zhText : enText;
 
     items.push({
-      id: `${module.id}:${fnv1a32(key)}`,
+      id: `${targetStrategy ? `${targetStrategy.target}:` : ''}${module.id}:${fnv1a32(key)}`,
       text: display,
     });
   }

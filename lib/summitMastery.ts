@@ -1,14 +1,19 @@
 import type { CommandTarget } from '@/data/commandMap';
 
-export const STORAGE_KEY = 'pte-summit-mastery-v1';
+export const STORAGE_KEY = 'pte-summit-mastery-v2';
 
 export interface MasteryEntry {
   checked: string[];
 }
 
+export interface ModuleGameResult {
+  passed: boolean;
+}
+
 export interface SummitMasteryState {
   target: CommandTarget;
   mastery: Record<string, MasteryEntry>;
+  gameResults?: Record<string, ModuleGameResult>;
 }
 
 export interface ModuleCompletion {
@@ -27,6 +32,39 @@ export interface TotalMastery {
   totalModules: number;
   pointsChecked: number;
   pointsTotal: number;
+}
+
+export interface RouteMastery extends TotalMastery {
+  isComplete: boolean;
+}
+
+function masteryKey(target: CommandTarget, moduleId: string): string {
+  return `${target}:${moduleId}`;
+}
+
+function moduleRequiresGame(moduleId: string): boolean {
+  return (
+    moduleId === 'wfd' ||
+    moduleId === 'rs' ||
+    moduleId === 'r-fib' ||
+    moduleId === 'rw-fib' ||
+    moduleId === 'essay' ||
+    moduleId === 'sst'
+  );
+}
+
+function gamePassed(state: SummitMasteryState, moduleId: string): boolean {
+  return state.gameResults?.[masteryKey(state.target, moduleId)]?.passed === true;
+}
+
+function effectiveTotal(moduleId: string, total: number): number {
+  return moduleRequiresGame(moduleId) && total > 0 ? total + 1 : total;
+}
+
+function effectiveChecked(state: SummitMasteryState, moduleId: string, checked: number, total: number): number {
+  const safeChecked = Math.min(Math.max(checked, 0), Math.max(total, 0));
+  if (!moduleRequiresGame(moduleId) || total === 0) return safeChecked;
+  return safeChecked + (gamePassed(state, moduleId) ? 1 : 0);
 }
 
 export function createInitialState(): SummitMasteryState {
@@ -50,7 +88,15 @@ export function loadState(): SummitMasteryState {
         }
       }
     }
-    return { target: parsed.target, mastery };
+    const gameResults: Record<string, ModuleGameResult> = {};
+    if (parsed.gameResults && typeof parsed.gameResults === 'object' && !Array.isArray(parsed.gameResults)) {
+      for (const [moduleId, result] of Object.entries(parsed.gameResults)) {
+        if (typeof (result as ModuleGameResult | undefined)?.passed === 'boolean') {
+          gameResults[moduleId] = { passed: (result as ModuleGameResult).passed };
+        }
+      }
+    }
+    return Object.keys(gameResults).length > 0 ? { target: parsed.target, mastery, gameResults } : { target: parsed.target, mastery };
   } catch {
     return createInitialState();
   }
@@ -70,12 +116,31 @@ export function setTarget(state: SummitMasteryState, target: CommandTarget): Sum
   return { ...state, target };
 }
 
+export function resetMastery(state: SummitMasteryState): SummitMasteryState {
+  return { target: state.target, mastery: {} };
+}
+
+export function setModuleGameResult(
+  state: SummitMasteryState,
+  moduleId: string,
+  passed: boolean,
+): SummitMasteryState {
+  return {
+    ...state,
+    gameResults: {
+      ...state.gameResults,
+      [masteryKey(state.target, moduleId)]: { passed },
+    },
+  };
+}
+
 export function toggleStrategy(
   state: SummitMasteryState,
   moduleId: string,
   strategyId: string,
 ): SummitMasteryState {
-  const current = state.mastery[moduleId] ?? { checked: [] };
+  const key = masteryKey(state.target, moduleId);
+  const current = state.mastery[key] ?? { checked: [] };
   const has = current.checked.includes(strategyId);
   const nextChecked = has
     ? current.checked.filter((id) => id !== strategyId)
@@ -85,7 +150,7 @@ export function toggleStrategy(
     ...state,
     mastery: {
       ...state.mastery,
-      [moduleId]: { checked: nextChecked },
+      [key]: { checked: nextChecked },
     },
   };
 }
@@ -95,11 +160,12 @@ export function getModuleCompletion(
   moduleId: string,
   total: number,
 ): ModuleCompletion {
-  const rawChecked = state.mastery[moduleId]?.checked.length ?? 0;
+  const rawChecked = state.mastery[masteryKey(state.target, moduleId)]?.checked.length ?? 0;
   const safeTotal = Math.max(total, 0);
-  const safeChecked = Math.min(Math.max(rawChecked, 0), safeTotal);
-  const percent = safeTotal === 0 ? 0 : Math.round((safeChecked / safeTotal) * 100);
-  return { checked: safeChecked, total: safeTotal, percent };
+  const totalWithGate = effectiveTotal(moduleId, safeTotal);
+  const checkedWithGate = effectiveChecked(state, moduleId, rawChecked, safeTotal);
+  const percent = totalWithGate === 0 ? 0 : Math.round((checkedWithGate / totalWithGate) * 100);
+  return { checked: checkedWithGate, total: totalWithGate, percent };
 }
 
 export function getNextFocus(
@@ -108,9 +174,11 @@ export function getNextFocus(
   totals: Map<string, number>,
 ): NextFocus {
   for (const moduleId of priorityOrder) {
-    const total = totals.get(moduleId) ?? 0;
+    const baseTotal = totals.get(moduleId) ?? 0;
+    const total = effectiveTotal(moduleId, baseTotal);
     if (total === 0) continue;
-    const checked = state.mastery[moduleId]?.checked.length ?? 0;
+    const rawChecked = state.mastery[masteryKey(state.target, moduleId)]?.checked.length ?? 0;
+    const checked = effectiveChecked(state, moduleId, rawChecked, baseTotal);
     if (checked < total) {
       return { moduleId, remaining: total - checked };
     }
@@ -128,8 +196,10 @@ export function getTotalMastery(
   let pointsTotal = 0;
 
   for (const id of climbModuleIds) {
-    const total = totals.get(id) ?? 0;
-    const checked = state.mastery[id]?.checked.length ?? 0;
+    const baseTotal = totals.get(id) ?? 0;
+    const total = effectiveTotal(id, baseTotal);
+    const rawChecked = state.mastery[masteryKey(state.target, id)]?.checked.length ?? 0;
+    const checked = effectiveChecked(state, id, rawChecked, baseTotal);
     pointsTotal += total;
     pointsChecked += Math.min(checked, total);
     if (total > 0 && checked >= total) masteredCount += 1;
@@ -140,5 +210,17 @@ export function getTotalMastery(
     totalModules: climbModuleIds.length,
     pointsChecked,
     pointsTotal,
+  };
+}
+
+export function getRouteMastery(
+  state: SummitMasteryState,
+  routeModuleIds: string[],
+  totals: Map<string, number>,
+): RouteMastery {
+  const totalMastery = getTotalMastery(state, routeModuleIds, totals);
+  return {
+    ...totalMastery,
+    isComplete: totalMastery.totalModules > 0 && totalMastery.masteredCount === totalMastery.totalModules,
   };
 }
