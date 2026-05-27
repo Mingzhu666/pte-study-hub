@@ -51,6 +51,17 @@ Most PTE prep tools treat every task type equally. **PTE Study Hub** scores each
 - Summit Mastery progress system, target-aware (PTE 65 / 79), persisted to `localStorage`
 - Pure domain logic isolated in `lib/` and covered by unit tests
 
+<table>
+  <tr>
+    <td width="50%"><img src="docs/screenshots/pte-promo-banner-en.jpg" alt="Skill Field map weighting every PTE module by ROI" /></td>
+    <td width="50%"><img src="docs/screenshots/pte-promo-speaking.jpg" alt="Speaking practice view with all 7 tasks and priority markers" /></td>
+  </tr>
+  <tr>
+    <td width="50%"><img src="docs/screenshots/pte-promo-essay.jpg" alt="Essay Writing strategy page with scoring breakdown" /></td>
+    <td width="50%"><img src="docs/screenshots/pte-promo-wfd-game.jpg" alt="WFD Spot &amp; Repair mini-test for catching word-level mistakes" /></td>
+  </tr>
+</table>
+
 ### Built With
 
 * [![Next][Next.js]][Next-url]
